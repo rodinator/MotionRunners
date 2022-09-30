@@ -5,4 +5,4 @@ Our Goal is this.
 
 Use your body to make play a game, without buying a Kinect or other stuff, you just need your Notebook or a CAM thats it 
 ![image](https://user-images.githubusercontent.com/43981990/193268957-04d34ddb-f503-4caf-8ef0-c4b56173d9ae.png)
-
+Stay tuned for our future progress
