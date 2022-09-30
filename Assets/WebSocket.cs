@@ -45,9 +45,8 @@ public class WebSocket : MonoBehaviour
         {
             print("no data receaved");
         }
-        else{ 
-            x = int.Parse(receivedData);
-        Vector3 pos = new Vector3(transform.position.x + x, 0, 0);
+        else if(receivedData == "step"){ 
+        Vector3 pos = new Vector3(transform.position.x + .2f, 0, 0);
         this.transform.position = pos;}
         
     }
