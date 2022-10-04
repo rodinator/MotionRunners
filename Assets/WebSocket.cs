@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
+
 
 public class WebSocket : MonoBehaviour
 {
@@ -33,22 +35,27 @@ public class WebSocket : MonoBehaviour
     async void Start()
     {
         objectRenderer = GetComponent<Renderer>();
-        await Task.Run(() => ListenEvents(source.Token));   
+        await Task.Run(() => ListenEvents(source.Token));
+           
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        float x;
         if(receivedData==null)
         {
             print("no data receaved");
-        }
+        }/*
         else if(receivedData == "step"){ 
         Vector3 pos = new Vector3(transform.position.x + .2f, 0, 0);
         this.transform.position = pos;}
-        
+        */
+        else{
+            BodyModel bodyModel = JsonConvert.DeserializeObject<BodyModel>(receivedData);
+            print(bodyModel.landmarks[26].x);
+            print(bodyModel.landmarks[27].x);
+        }
     }
 
     private void ListenEvents(CancellationToken token)
