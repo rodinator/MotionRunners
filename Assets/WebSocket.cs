@@ -7,10 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 public class WebSocket : MonoBehaviour
 {
+    public Landmark[] landmarks;
+
     static Socket listener;
     private CancellationTokenSource source;
     public ManualResetEvent allDone;
@@ -45,16 +47,15 @@ public class WebSocket : MonoBehaviour
         
         if(receivedData==null)
         {
-            print("no data receaved");
+            print("no data received");
         }/*
         else if(receivedData == "step"){ 
         Vector3 pos = new Vector3(transform.position.x + .2f, 0, 0);
         this.transform.position = pos;}
         */
         else{
-            BodyModel bodyModel = JsonConvert.DeserializeObject<BodyModel>(receivedData);
-            print(bodyModel.landmarks[26].x);
-            print(bodyModel.landmarks[27].x);
+            List<Landmark> receivedLandmarks = JsonConvert.DeserializeObject<List<Landmark>>(receivedData);
+            landmarks = receivedLandmarks.ToArray();
         }
     }
 
@@ -80,7 +81,7 @@ public class WebSocket : MonoBehaviour
             {
                 allDone.Reset();
 
-                print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
+                //print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
                 listener.BeginAccept(new AsyncCallback(AcceptCallback),listener);
 
                 while(!token.IsCancellationRequested)
@@ -128,9 +129,7 @@ public class WebSocket : MonoBehaviour
         {
             if (state.stringBuilder.Length > 1)
             { 
-                string content = state.stringBuilder.ToString();
-                print($"Read {content.Length} bytes from socket.\n Data : {content}");
-                receivedData = content;
+                receivedData = state.stringBuilder.ToString();
             }
             handler.Close();
         }

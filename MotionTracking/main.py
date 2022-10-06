@@ -17,7 +17,7 @@ mp_holistic = mp.solutions.holistic
 
 def sendDataToUnity(data):
     s = socket.socket()
-    s.connect(('192.168.1.136', 1755))
+    s.connect(('192.168.44.193', 1755))
     s.send((
 
                    str(data).encode("UTF-8")))
@@ -61,38 +61,17 @@ with mp_pose.Pose(
     image.flags.writeable = False
     results = pose.process(image)
 
-    #Logic
-  #  groundHeight = 0.93
-  #  stepSize = 0.8
-    leftLeg = results.pose_landmarks.landmark[27]
-    rightLeg = results.pose_landmarks.landmark[28]
-  #  if (leftLegIsBackLeg):
-  #      if (leftLeg.y < stepSize):
-  #          leftLegIsBackLeg = False
-  #          steps += 1
-  #          print("backLeg is rightLeg")
-  #          sendDataToUnity("step")
-  #      else: sendDataToUnity("noStep")
-  #  elif (rightLeg.y < stepSize):
-  #          leftLegIsBackLeg = True
-  #          steps += 1
-  #          print("backLeg is left leg")
-  #          sendDataToUnity("step")
-  #  else: sendDataToUnity("noStep")
-  #  print(steps)
 
-    testString = "testos"
     #send json
     landmarks = results.pose_landmarks.landmark
-    data = "{\"landmarks\":["
+    data = "["
     for index in range(len(landmarks)):
         currentLandmark = landmarks[index]
         data += "{\"x\":" + str(currentLandmark.x) + ", " + "\"y\":" + str(currentLandmark.y) + ", " + "\"z\":" + str(currentLandmark.z) + ", " + "\"visibility\":" + str(currentLandmark.x) + "}"
         if (index < len(landmarks) -1):
             data += ","
-    data += "]}"
-    #data = {
-    #    "landmarks":[
+    data += "]"
+    #data = [
     #        {
     #            'x': leftLeg.x,
     #            'y': leftLeg.y,
@@ -106,7 +85,7 @@ with mp_pose.Pose(
     #            'visibility': rightLeg.visibility
     #        }
     #    ]
-    #}
+    #
 
     json_object = json.loads(data)
     sendDataToUnity(json_object)
