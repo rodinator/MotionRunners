@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 
     Controller controller;
     float speedPerStep = .3f;
+    float jumpHeight = .8f;
+    float crouchHeight = -.4f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         Run();
+        Jump();
+        Crouch();
     }
 
     void Run(){
@@ -26,5 +30,27 @@ public class Player : MonoBehaviour
                 newPosition.z += speedPerStep;
             transform.position = newPosition;
         }
+    }
+
+    void Jump(){
+            Vector3 newPosition = transform.position;
+            if (controller.jumping)
+                newPosition.y = jumpHeight;
+            else newPosition.y = 0;
+            transform.position = newPosition;
+    }
+
+    void Crouch(){
+
+        if (controller.jumping)
+            return;
+        
+        Vector3 newPosition = transform.position;
+        if (controller.crouching)
+            newPosition.y = crouchHeight;
+        else
+            newPosition.y = 0;
+        transform.position = newPosition;
+
     }
 }

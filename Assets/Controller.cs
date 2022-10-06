@@ -9,12 +9,26 @@ public class Controller : MonoBehaviour
         https://techvidvan.com/tutorials/human-pose-estimation-opencv/
     */
 
+    //!!!!!!Bewegungen Werden derzeit von den Händen gelesen!!!!!!
+
     Landmark[] landmarks;
+    Landmark rightLeg;
+    Landmark leftLeg;
+    Landmark leftHip;
+    Landmark rightHip;
+
     float groundHeight = .93f;
 
-    float stepHeight = .8f;
+    float stepHeight = .13f;
     bool rightLegMadeLastStep = false;
     public bool steppedThisFrame = false;
+
+    float jumpHeight = .5f;
+    public bool jumping = false;
+
+    float  crouchingHeight = .42f;
+    public bool crouching = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,40 +40,66 @@ public class Controller : MonoBehaviour
     {
         landmarks = GetComponent<WebSocket>().landmarks;
 
-        Run();
+        if (AssignBodyParts()){
+            Run();
+            Jump();
+            Crouch();
+        }
+    }
+
+    bool AssignBodyParts(){
+        if (landmarks != null && landmarks.Length < 29)
+            return false;
+
+        leftLeg = landmarks[27];
+        rightLeg = landmarks[28];
+        leftHip = landmarks[23];
+        rightHip = landmarks[24];
+
+        //Debuging with hands and face
+        leftLeg = landmarks[15];
+        rightLeg = landmarks[16];
+        leftHip = landmarks[7];
+        rightHip = landmarks[8];
+
+        return true;
+
     }
 
     void Run()
     {
 
         steppedThisFrame = false;
-
-        if (landmarks != null && landmarks.Length >= 29){
-
-            Landmark leftLeg = landmarks[27];
-            Landmark rightLeg = landmarks[28];
-
-            leftLeg = landmarks[15];
-            rightLeg = landmarks[16];
+        float stepHeightFromGround = groundHeight - stepHeight;
 
             if (rightLegMadeLastStep)
             {
-                if (leftLeg.y < stepHeight && rightLeg.y > stepHeight)
+                if (leftLeg.y < stepHeightFromGround && rightLeg.y > stepHeightFromGround)
                 {
                     rightLegMadeLastStep = false;
                     steppedThisFrame = true;
-                    print("step left");
                 }
             }
             else
-            if (rightLeg.y < stepHeight && leftLeg.y > stepHeight)
+            if (rightLeg.y < stepHeightFromGround && leftLeg.y > stepHeightFromGround)
             {
                 rightLegMadeLastStep = true;
                 steppedThisFrame = true;
-                print("step right");
             }
-
-        }
         
+    }
+
+    void Jump(){
+        jumping = false;
+        float jumpHeightFromGround = groundHeight - jumpHeight;
+        if (leftLeg.y < jumpHeightFromGround && rightLeg.y < jumpHeightFromGround)
+            jumping = true;
+    }
+
+    void Crouch(){
+        crouching = false;
+        float crouchingHeightFromGround = groundHeight - crouchingHeight;
+        if (leftHip.y > crouchingHeightFromGround && rightHip.y > crouchingHeightFromGround)
+            crouching = true;
     }
 }
