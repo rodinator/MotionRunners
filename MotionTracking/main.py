@@ -17,7 +17,7 @@ mp_holistic = mp.solutions.holistic
 
 def sendDataToUnity(data):
     s = socket.socket()
-    s.connect(('192.168.44.193', 1755))
+    s.connect(('192.168.1.136', 1755))
     s.send((
 
                    str(data).encode("UTF-8")))

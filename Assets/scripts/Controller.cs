@@ -9,8 +9,6 @@ public class Controller : MonoBehaviour
         https://techvidvan.com/tutorials/human-pose-estimation-opencv/
     */
 
-    //!!!!!!Bewegungen Werden derzeit von den Händen gelesen!!!!!!
-
     Landmark[] landmarks;
     Landmark rightLeg;
     Landmark leftLeg;
@@ -23,7 +21,7 @@ public class Controller : MonoBehaviour
     bool rightLegMadeLastStep = false;
     public bool steppedThisFrame = false;
 
-    float jumpHeight = .5f;
+    float jumpHeight = .2f;
     public bool jumping = false;
 
     float  crouchingHeight = .42f;
@@ -56,11 +54,11 @@ public class Controller : MonoBehaviour
         leftHip = landmarks[23];
         rightHip = landmarks[24];
 
-        //Debuging with hands and face
+        /*/Debuging with hands and face
         leftLeg = landmarks[15];
         rightLeg = landmarks[16];
         leftHip = landmarks[7];
-        rightHip = landmarks[8];
+        rightHip = landmarks[8];*/
 
         return true;
 
