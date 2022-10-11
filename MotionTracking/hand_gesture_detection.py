@@ -1,11 +1,14 @@
 # TechVidvan hand Gesture Recognizer
 
+#possible solutions:
+#https://stackoverflow.com/questions/15114695/imported-module-not-found-in-pyinstaller
+
 # import necessary packages
 
 import cv2
 import numpy as np
 import mediapipe as mp
-import tensorflow as tf
+# import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # initialize mediapipe

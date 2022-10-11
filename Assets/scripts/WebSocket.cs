@@ -34,6 +34,8 @@ public class WebSocket : MonoBehaviour
     }
 
     // Start is called before the first frame update
+
+    
     async void Start()
     {
         objectRenderer = GetComponent<Renderer>();
@@ -64,8 +66,11 @@ public class WebSocket : MonoBehaviour
 
         
         IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
+        //ipHostInfo.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
+
+        print(ipAddress);
 
          
         listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);

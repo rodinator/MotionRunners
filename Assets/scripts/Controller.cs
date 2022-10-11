@@ -8,25 +8,35 @@ public class Controller : MonoBehaviour
     /*Landmark Reference:
         https://techvidvan.com/tutorials/human-pose-estimation-opencv/
     */
-
+    bool calibrated;
     Landmark[] landmarks;
     Landmark rightLeg;
     Landmark leftLeg;
     Landmark leftHip;
     Landmark rightHip;
+    Landmark nose;
+    Landmark rightHand;
+    Landmark leftHand;
 
-    float groundHeight = .93f;
-
-    float stepHeight = .13f;
+    public float groundHeight = .93f;
+    public float bodyHeight = 0;
+    public float bodyHeightPercentageForStep = 5;
+    public float stepHeight = .13f;
     bool rightLegMadeLastStep = false;
     public bool steppedThisFrame = false;
 
-    float jumpHeight = .2f;
+    public float bodyHeightPercentageForJump = 10;
+    public float jumpHeight = .2f;
     public bool jumping = false;
 
-    float  crouchingHeight = .42f;
+    public float bodyHeightPercentageForCrouch = 27.5f;
+    public float crouchingHeight = .42f;
     public bool crouching = false;
 
+    int steps = 0;
+
+
+    public float debugLeftLegY;
 
     // Start is called before the first frame update
     void Start()
@@ -38,14 +48,23 @@ public class Controller : MonoBehaviour
     {
         landmarks = GetComponent<WebSocket>().landmarks;
 
-        if (AssignBodyParts()){
-            Run();
-            Jump();
-            Crouch();
+
+        if (AssignBodyParts())
+        {
+            Calibrate();
+            if (calibrated)
+            {
+
+                debugLeftLegY = leftLeg.y;
+                Run();
+                Jump();
+                Crouch();
+            }
         }
     }
 
-    bool AssignBodyParts(){
+    bool AssignBodyParts()
+    {
         if (landmarks != null && landmarks.Length < 29)
             return false;
 
@@ -53,6 +72,9 @@ public class Controller : MonoBehaviour
         rightLeg = landmarks[28];
         leftHip = landmarks[23];
         rightHip = landmarks[24];
+        leftHand = landmarks[15];
+        rightHand = landmarks[16];
+        nose = landmarks[0];
 
         /*/Debuging with hands and face
         leftLeg = landmarks[15];
@@ -68,36 +90,64 @@ public class Controller : MonoBehaviour
     {
 
         steppedThisFrame = false;
-        float stepHeightFromGround = groundHeight - stepHeight;
+        float stepHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForStep;
 
-            if (rightLegMadeLastStep)
+        if (rightLegMadeLastStep)
+        {
+            if (leftLeg.y < groundHeight - stepHeightFromGround && rightLeg.y > groundHeight - stepHeightFromGround)
             {
-                if (leftLeg.y < stepHeightFromGround && rightLeg.y > stepHeightFromGround)
-                {
-                    rightLegMadeLastStep = false;
-                    steppedThisFrame = true;
-                }
-            }
-            else
-            if (rightLeg.y < stepHeightFromGround && leftLeg.y > stepHeightFromGround)
-            {
-                rightLegMadeLastStep = true;
+                rightLegMadeLastStep = false;
                 steppedThisFrame = true;
             }
-        
+        }
+        else
+        if (rightLeg.y < groundHeight - stepHeightFromGround && leftLeg.y >  groundHeight - stepHeightFromGround)
+        {
+            rightLegMadeLastStep = true;
+            steppedThisFrame = true;
+        }
+
+        if (steppedThisFrame)
+            steps += 1;
+
     }
 
-    void Jump(){
+    void Jump()
+    {
         jumping = false;
-        float jumpHeightFromGround = groundHeight - jumpHeight;
-        if (leftLeg.y < jumpHeightFromGround && rightLeg.y < jumpHeightFromGround)
+        float jumpHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForJump;
+        if (leftLeg.y < groundHeight - jumpHeightFromGround && rightLeg.y < groundHeight - jumpHeightFromGround)
             jumping = true;
     }
 
-    void Crouch(){
+    void Crouch()
+    {
         crouching = false;
-        float crouchingHeightFromGround = groundHeight - crouchingHeight;
-        if (leftHip.y > crouchingHeightFromGround && rightHip.y > crouchingHeightFromGround)
+        float crouchingHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForCrouch;
+
+        if (leftHip.y > groundHeight - crouchingHeightFromGround && rightHip.y > groundHeight - crouchingHeightFromGround)
             crouching = true;
+    }
+
+    public bool ArmsLifted()
+    {
+        if (leftHand.y < nose.y && rightHand.y < nose.y)
+            return true;
+        else return false;
+    }
+
+    void Calibrate()
+    {
+        if (calibrated == false)
+        {
+            print("Lift Arms to Calibrate");
+            if (ArmsLifted())
+            {
+                calibrated = true;
+                groundHeight = (leftLeg.y + rightLeg.y) / 2;
+                bodyHeight = groundHeight - nose.y;
+
+            }
+        }
     }
 }
