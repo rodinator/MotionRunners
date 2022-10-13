@@ -39,6 +39,7 @@ with mp_pose.Pose(
 
 # For webcam input:
 cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture('run-mock.mp4')
 #cap = cv2.VideoCapture(2)
 #For Video input:
 prevTime = 0

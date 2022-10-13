@@ -7,10 +7,11 @@ public class Player : MonoBehaviour
 
     Controller controller;
     float speedPerStep = .3f;
-    float jumpHeight = .8f;
+    float jumpHeight = 5f;
     float crouchHeight = -.4f;
 
     float speed = 0;
+    float speedCap = .12f;
     float speedMod = 0.08f;
     float timeSinceLastStep = 0;
     float friction = .2f;
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<Controller>();
+        controller = GetComponent<BodyController>();
     }
 
     // Update is called once per frame
@@ -31,12 +32,19 @@ public class Player : MonoBehaviour
 
     }
 
+    void OnCollisionEnter(Collision trigger){
+        speed = 0;
+        Vector3 newPosition = transform.position;
+        newPosition.z -= 5;
+        transform.position = newPosition;
+    }
+
     void Run(){
 
         timeSinceLastStep += Time.deltaTime;
         speed -= friction * speedMod;
         
-        if (controller.steppedThisFrame){
+        if (controller.Stepped()){
             speed = 1 / timeSinceLastStep;
             timeSinceLastStep = 0;
         }
@@ -49,9 +57,15 @@ public class Player : MonoBehaviour
 
         if (speed <= 0)
             speed = 0;
+
+        float finalSpeed = speed * speedMod;
         
+        if (finalSpeed > speedCap)
+            finalSpeed = speedCap;
+        
+        print (finalSpeed);
         Vector3 newPosition = transform.position;
-        newPosition.z += speed * speedMod;
+        newPosition.z += finalSpeed;
         transform.position = newPosition;
 
         /*if (controller.steppedThisFrame){
@@ -64,7 +78,7 @@ public class Player : MonoBehaviour
 
     void Jump(){
             Vector3 newPosition = transform.position;
-            if (controller.jumping)
+            if (controller.Jumping())
                 newPosition.y = jumpHeight;
             else newPosition.y = 0;
             transform.position = newPosition;
@@ -72,11 +86,11 @@ public class Player : MonoBehaviour
 
     void Crouch(){
 
-        if (controller.jumping)
+        if (controller.Jumping())
             return;
         
         Vector3 newPosition = transform.position;
-        if (controller.crouching)
+        if (controller.Crouched())
             newPosition.y = crouchHeight;
         else
             newPosition.y = 0;

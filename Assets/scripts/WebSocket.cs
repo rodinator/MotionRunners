@@ -67,6 +67,8 @@ public class WebSocket : MonoBehaviour
         
         IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
+        //IPAddress ipAddress = System.Net.IPAddress.Parse("192.168.1.136");
+
         //ipHostInfo.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
 

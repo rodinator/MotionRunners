@@ -5,14 +5,14 @@ using UnityEngine;
 public class Calibration : MonoBehaviour
 {
 
-    Controller controller;
+    BodyController controller;
 
     bool calibrated = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<Controller>();        
+        controller = GetComponent<BodyController>();        
     }
 
     // Update is called once per frame
