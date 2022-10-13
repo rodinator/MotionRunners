@@ -63,7 +63,10 @@ with mp_pose.Pose(
 
 
     #send json
-    landmarks = results.pose_landmarks.landmark
+    try:
+        landmarks = results.pose_landmarks.landmark
+    except:
+        pass
     data = "["
     for index in range(len(landmarks)):
         currentLandmark = landmarks[index]

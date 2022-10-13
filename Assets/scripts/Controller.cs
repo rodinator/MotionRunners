@@ -63,6 +63,9 @@ public class Controller : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision){
+        print ("collided");
+    }
     bool AssignBodyParts()
     {
         if (landmarks != null && landmarks.Length < 29)
@@ -106,6 +109,7 @@ public class Controller : MonoBehaviour
             rightLegMadeLastStep = true;
             steppedThisFrame = true;
         }
+    
 
         if (steppedThisFrame)
             steps += 1;

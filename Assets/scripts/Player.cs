@@ -9,6 +9,12 @@ public class Player : MonoBehaviour
     float speedPerStep = .3f;
     float jumpHeight = .8f;
     float crouchHeight = -.4f;
+
+    float speed = 0;
+    float speedMod = 0.08f;
+    float timeSinceLastStep = 0;
+    float friction = .2f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,15 +27,39 @@ public class Player : MonoBehaviour
         Run();
         Jump();
         Crouch();
+        
+
     }
 
     void Run(){
+
+        timeSinceLastStep += Time.deltaTime;
+        speed -= friction * speedMod;
+        
         if (controller.steppedThisFrame){
+            speed = 1 / timeSinceLastStep;
+            timeSinceLastStep = 0;
+        }
+
+/*
+        if (timeSinceLastStep > 1){
+            speed = 0;
+        }
+*/
+
+        if (speed <= 0)
+            speed = 0;
+        
+        Vector3 newPosition = transform.position;
+        newPosition.z += speed * speedMod;
+        transform.position = newPosition;
+
+        /*if (controller.steppedThisFrame){
             Vector3 newPosition = transform.position;
             if (controller.steppedThisFrame)
                 newPosition.z += speedPerStep;
             transform.position = newPosition;
-        }
+        }*/
     }
 
     void Jump(){
