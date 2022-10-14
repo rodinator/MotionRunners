@@ -8,8 +8,6 @@ public class BodyController : Controller
     /*Landmark Reference:
         https://techvidvan.com/tutorials/human-pose-estimation-opencv/
     */
-
-    //Debug: should be false
     bool calibrated = false;
     Landmark[] landmarks;
     Landmark rightLeg;
@@ -44,13 +42,6 @@ public class BodyController : Controller
     {
         landmarks = GetComponent<WebSocket>().landmarks;
 
-        /*/Debug run
-        steppedThisFrame = false;
-        if (Input.GetKeyDown("w")){
-            print ("stepped");
-            steppedThisFrame = true;
-        }
-        */
 
         if (AssignBodyParts())
         {
@@ -123,7 +114,7 @@ public class BodyController : Controller
         return jumping;
     }
 
-    override public bool Crouched()
+    override public bool Crouching()
     {
         if (!calibrated) return false;
 

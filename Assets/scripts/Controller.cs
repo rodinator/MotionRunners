@@ -7,5 +7,5 @@ public abstract class Controller : MonoBehaviour
     abstract public bool Stepped();
     abstract public bool Jumping();
 
-    abstract public bool Crouched();
+    abstract public bool Crouching();
 }
