@@ -29,6 +29,10 @@ public class BodyController : Controller
 
     int steps = 0;
 
+    bool leftLegIsReadyToStep = false;
+    bool rightLegIsReadyToStep = false;
+
+    public float groundedThreeshold = 0.0003f;
 
     public float debugLeftLegY;
 
@@ -46,7 +50,8 @@ public class BodyController : Controller
         if (AssignBodyParts())
         {
             Calibrate();
-        } else calibrated = false;
+        }
+        else calibrated = false;
     }
 
     bool AssignBodyParts()
@@ -79,22 +84,39 @@ public class BodyController : Controller
 
         bool steppedThisFrame = false;
         float stepHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForStep;
+        /*
+                if (rightLegMadeLastStep)
+                {
+                    if (leftLeg.y < groundHeight - stepHeightFromGround && rightLeg.y > groundHeight - stepHeightFromGround)
+                    {
+                        rightLegMadeLastStep = false;
+                        steppedThisFrame = true;
+                    }
+                }
+                else
+                if (rightLeg.y < groundHeight - stepHeightFromGround && leftLeg.y >  groundHeight - stepHeightFromGround)
+                {
+                    rightLegMadeLastStep = true;
+                    steppedThisFrame = true;
+                }
+          */
+        if (leftLeg.y > groundHeight - groundedThreeshold)
+            leftLegIsReadyToStep = true;
 
-        if (rightLegMadeLastStep)
+        if (leftLegIsReadyToStep && leftLeg.y < groundHeight - stepHeightFromGround)
         {
-            if (leftLeg.y < groundHeight - stepHeightFromGround && rightLeg.y > groundHeight - stepHeightFromGround)
-            {
-                rightLegMadeLastStep = false;
-                steppedThisFrame = true;
-            }
-        }
-        else
-        if (rightLeg.y < groundHeight - stepHeightFromGround && leftLeg.y >  groundHeight - stepHeightFromGround)
-        {
-            rightLegMadeLastStep = true;
             steppedThisFrame = true;
+            leftLegIsReadyToStep = false;
         }
-    
+
+        if (rightLeg.y > groundHeight - groundedThreeshold)
+            rightLegIsReadyToStep = true;
+
+        if (rightLegIsReadyToStep && rightLeg.y < groundHeight - stepHeightFromGround)
+        {
+            steppedThisFrame = true;
+            rightLegIsReadyToStep = false;
+        }
 
         if (steppedThisFrame)
             steps += 1;
@@ -106,7 +128,7 @@ public class BodyController : Controller
     {
         if (!calibrated)
             return false;
-            
+
         bool jumping = false;
         float jumpHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForJump;
         if (leftLeg.y < groundHeight - jumpHeightFromGround && rightLeg.y < groundHeight - jumpHeightFromGround)

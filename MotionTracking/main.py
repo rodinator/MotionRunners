@@ -38,7 +38,7 @@ with mp_pose.Pose(
     cv2.imwrite(r'4.png', annotated_image)
 
 # For webcam input:
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 #cap = cv2.VideoCapture('run-mock.mp4')
 #cap = cv2.VideoCapture(2)
 #For Video input:

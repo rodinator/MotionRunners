@@ -9,13 +9,17 @@ public class Player : MonoBehaviour
     Rigidbody rigidbody;
     float speedPerStep = .3f;
     public float jumpHeight = 10f;
+    public float jumpForwardMotion = 10f;
+
     float crouchHeight = -.4f;
 
-    float speed = 0;
-    float speedCap = .12f;
-    float speedMod = 0.08f;
+    public float speed = 0;
+    public float speedCap = .12f;
+    public float speedMod = 0.08f;
     float timeSinceLastStep = 0;
     float friction = .2f;
+
+    public float groundedRaycastDistance = 2.01f;
 
     float defaultSize;
 
@@ -34,6 +38,9 @@ public class Player : MonoBehaviour
         Jump();
         Crouch();
 
+        //Run a circle
+        if (transform.position.z > 205)
+            transform.position = new Vector3(transform.position.x, transform.position.y, -28);
 
     }
 
@@ -58,17 +65,18 @@ public class Player : MonoBehaviour
         timeSinceLastStep += Time.deltaTime;
         speed -= friction * speedMod;
 
-        if (controller.Stepped())
+        if (controller.Stepped() && !controller.Jumping())
         {
+            print("Stepped");
             speed = 1 / timeSinceLastStep;
             timeSinceLastStep = 0;
         }
 
-        /*
-                if (timeSinceLastStep > 1){
-                    speed = 0;
-                }
-        */
+        
+                //if (timeSinceLastStep > 1){
+                  //  speed = 0;
+                //}
+        
 
         if (speed <= 0)
             speed = 0;
@@ -78,11 +86,11 @@ public class Player : MonoBehaviour
         if (finalSpeed > speedCap)
             finalSpeed = speedCap;
 
-        print(finalSpeed);
         Vector3 newPosition = transform.position;
         newPosition.z += finalSpeed;
         transform.position = newPosition;
 
+        
         /*if (controller.steppedThisFrame){
             Vector3 newPosition = transform.position;
             if (controller.steppedThisFrame)
@@ -97,12 +105,10 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        Vector3 newPosition = transform.position;
-        if (controller.Jumping())
-            rigidbody.AddForce(0, jumpHeight, 0, ForceMode.Impulse);
+        if (controller.Jumping() && Grounded()){
+            rigidbody.AddForce(0, jumpHeight, jumpForwardMotion, ForceMode.Impulse);
+        }
 
-        //else newPosition.y = 0;
-        //transform.position = newPosition;
     }
 
     void Crouch()
@@ -117,4 +123,13 @@ public class Player : MonoBehaviour
 
     }
 
+    bool Grounded(){
+        RaycastHit hit;
+
+        Physics.Raycast(transform.position, Vector3.down, out hit, groundedRaycastDistance);
+
+        if (hit.collider == null)
+            return false;
+        else return true;
+    }
 }
