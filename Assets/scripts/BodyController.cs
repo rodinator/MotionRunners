@@ -149,6 +149,12 @@ public class BodyController : Controller
         return crouching;
     }
 
+    public override bool Ready()
+    {   if (calibrated)
+            return base.Ready();
+        else return false;
+    }
+
     public bool ArmsLifted()
     {
         if (leftHand.y < nose.y && rightHand.y < nose.y)

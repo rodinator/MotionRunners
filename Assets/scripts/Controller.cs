@@ -8,4 +8,8 @@ public abstract class Controller : MonoBehaviour
     abstract public bool Jumping();
 
     abstract public bool Crouching();
+
+    virtual public bool Ready(){
+        return true;
+    }
 }

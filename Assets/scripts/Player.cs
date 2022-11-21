@@ -13,9 +13,10 @@ public class Player : MonoBehaviour
 
     float crouchHeight = -.4f;
 
-    public float speed = 0;
+    public float startSpeed = .5f;
+    float speed = 3;
+    public float acceleration = 5;
     public float speedCap = .12f;
-    public float speedMod = 0.08f;
     float timeSinceLastStep = 0;
     float friction = .2f;
 
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<Controller>();
         rigidbody = GetComponent<Rigidbody>();
         defaultSize = transform.localScale.y;
+        speed = startSpeed;
     }
 
     // Update is called once per frame
@@ -52,7 +54,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            speed = 0;
+            speed = startSpeed;
             Vector3 newPosition = transform.position;
             newPosition.z -= 5;
             transform.position = newPosition;
@@ -61,42 +63,13 @@ public class Player : MonoBehaviour
 
     void Run()
     {
+        if (controller.Ready()){
+            speed += Time.deltaTime * acceleration;
 
-        timeSinceLastStep += Time.deltaTime;
-        speed -= friction * speedMod;
-
-        if (controller.Stepped() && !controller.Jumping())
-        {
-            print("Stepped");
-            speed = 1 / timeSinceLastStep;
-            timeSinceLastStep = 0;
-        }
-
-        
-                //if (timeSinceLastStep > 1){
-                  //  speed = 0;
-                //}
-        
-
-        if (speed <= 0)
-            speed = 0;
-
-        float finalSpeed = speed * speedMod;
-
-        if (finalSpeed > speedCap)
-            finalSpeed = speedCap;
-
-        Vector3 newPosition = transform.position;
-        newPosition.z += finalSpeed;
-        transform.position = newPosition;
-
-        
-        /*if (controller.steppedThisFrame){
             Vector3 newPosition = transform.position;
-            if (controller.steppedThisFrame)
-                newPosition.z += speedPerStep;
+            newPosition.z += speed;
             transform.position = newPosition;
-        }*/
+        }
     }
 
     float currentJumpSpeed = .3f;
