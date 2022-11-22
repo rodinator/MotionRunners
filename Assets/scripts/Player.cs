@@ -40,10 +40,6 @@ public class Player : MonoBehaviour
         Jump();
         Crouch();
 
-        //Run a circle
-        if (transform.position.z > 205)
-            transform.position = new Vector3(transform.position.x, transform.position.y, -28);
-
     }
 
     void FixedUpdate()
