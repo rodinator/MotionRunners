@@ -32,7 +32,7 @@ leftLegIsBackLeg = True
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-cap = VideoGet().start()
+cap = VideoGet(1).start()
 # For Video input:
 prevTime = 0
 with mp_pose.Pose(
@@ -67,38 +67,39 @@ with mp_pose.Pose(
         cv2.imshow('BlazePose', image)
         if cv2.waitKey(5) & 0xFF == 27:
             break
-    try:
-        landmarks = results.pose_landmarks.landmark
-    except:
-        pass
-    data = "["
-    for index in range(len(landmarks)):
-        currentLandmark = landmarks[index]
-        data += "{\"x\":" + str(currentLandmark.x) + ", " + "\"y\":" + str(currentLandmark.y) + ", " + "\"z\":" + str(
-            currentLandmark.z) + ", " + "\"visibility\":" + str(currentLandmark.x) + "}"
-        if (index < len(landmarks) - 1):
-            data += ","
-    data += "]"
-    # data = [
-    #        {
-    #            'x': leftLeg.x,
-    #            'y': leftLeg.y,
-    #            'z': leftLeg.z,
-    #            'visibility': leftLeg.visibility
-    #        },
-    #        {
-    #            'x': rightLeg.x,
-    #            'y': rightLeg.y,
-    #            'z': rightLeg.z,
-    #            'visibility': rightLeg.visibility
-    #        }
-    #    ]
-    #
+        try:
+            landmarks = results.pose_landmarks.landmark
+        except:
+            pass
+        data = "["
+        for index in range(len(landmarks)):
+            currentLandmark = landmarks[index]
+            data += "{\"x\":" + str(currentLandmark.x) + ", " + "\"y\":" + str(currentLandmark.y) + ", " + "\"z\":" + str(
+                currentLandmark.z) + ", " + "\"visibility\":" + str(currentLandmark.x) + "}"
+            if (index < len(landmarks) - 1):
+                data += ","
+        data += "]"
+        # data = [
+        #        {
+        #            'x': leftLeg.x,
+        #            'y': leftLeg.y,
+        #            'z': leftLeg.z,
+        #            'visibility': leftLeg.visibility
+        #        },
+        #        {
+        #            'x': rightLeg.x,
+        #            'y': rightLeg.y,
+        #            'z': rightLeg.z,
+        #            'visibility': rightLeg.visibility
+        #        }
+        #    ]
+        #
 
-    json_object = json.loads(data)
-    sendDataToUnity(json_object)
+        json_object = json.loads(data)
+        sendDataToUnity(json_object)
 # send json
 cap.stop()
+cap.release()
 
 # Learn more AI in Computer Vision by Enrolling in our AI_CV Nano Degree:
 # https://bit.ly/AugmentedAICVPRO

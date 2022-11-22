@@ -12,7 +12,7 @@ from VideoGet import VideoGet
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-cap = VideoGet().start()
+cap = VideoGet(1).start()
 # For Video input:
 prevTime = 0
 with mp_pose.Pose(
