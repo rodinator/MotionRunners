@@ -11,11 +11,7 @@ from VideoGet import VideoGet
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-mp_holistic = mp.solutions.holistic
 
-# For webcam input:
-# cap = cv2.VideoCapture(0)
-# cap.set(cv2.CAP_PROP_FPS, 60)
 cap = VideoGet().start()
 # For Video input:
 prevTime = 0
@@ -39,7 +35,7 @@ with mp_pose.Pose(
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
         image.flags.writeable = False
-        results = pose.process(image)
+        results = pose.process(cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
 
         # Draw the pose annotation on the image.
         mp_drawing.draw_landmarks(
@@ -51,7 +47,7 @@ with mp_pose.Pose(
         cv2.imshow('BlazePose', image)
         if cv2.waitKey(5) & 0xFF == 27:
             break
-cap.stream.release()
+cap.stop()
 
 # Learn more AI in Computer Vision by Enrolling in our AI_CV Nano Degree:
 # https://bit.ly/AugmentedAICVPRO
