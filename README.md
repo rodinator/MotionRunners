@@ -1,8 +1,12 @@
-# MotionRunners
+# blazepose-unity
+this project is based on [tf-lite-unity-sample](https://github.com/asus4/tf-lite-unity-sample)
 
-Our Goal is this.
-<img width="989" alt="image" src="https://user-images.githubusercontent.com/43981990/193266793-7763edc8-76ba-4068-b081-d9963f947324.png">
+In the sample scene you'll find a game object named `BlazePose`  that has the main script attached to it. 
+The `Custom Camera Name` field is used to specify a camera name - leave this blank for it to pick up the default camera.
 
-Use your body to make play a game, without buying a Kinect or other stuff, you just need your Notebook or a CAM thats it 
-![image](https://user-images.githubusercontent.com/43981990/193268957-04d34ddb-f503-4caf-8ef0-c4b56173d9ae.png)
-Stay tuned for our future progress
+If you want to use the tablet you can tick `Use Front Facing Camera`  if you want to use the front facing camera.
+
+The script will give you access to all body landmarks being tracked in real time using `worldJoins`  and to get you started I've already extracted left and right hand positions as game objects `leftHand`  and `rightHand` .
+
+
+For debugging you can tick `DrawSitckFigure` for it to show the blue outline (as with the video I shared above) or enable the `Canvas`  game object to see the actual camera feed.
