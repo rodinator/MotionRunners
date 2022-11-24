@@ -21,7 +21,7 @@ public class KeyboardController : Controller
 
     public override bool Crouching()
     {
-        if (Input.GetKey("s"))
+        if (Input.GetKey("c"))
             return true;
             else return false;
     }
