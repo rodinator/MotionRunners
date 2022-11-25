@@ -16,7 +16,8 @@ public class MapGenerator : MonoBehaviour
     public float obstacleMinDistance = 30;
     public float obstacleMaxDistance = 70;
 
-    public int sightDistance = 10;
+    public int sightDistance = 110;
+    public int distanceToDelete = 30;
 
 
     float camZ;
@@ -61,7 +62,7 @@ public class MapGenerator : MonoBehaviour
         for (int i = transform.childCount -1; i >= 0; i--){
             Transform mapTile = transform.GetChild(i);
 
-            if (mapTile.position.z < camZ){
+            if (mapTile.position.z + distanceToDelete < camZ){
 
                 Destroy(mapTile.gameObject);
 

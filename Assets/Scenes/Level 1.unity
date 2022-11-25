@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 3.34
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 399510f5e2acffd458fd97be65809e5b, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 133347283e115d147a5fcce7f47a538f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38209018, g: 0.78675354, b: 0.66364354, a: 1}
+  m_IndirectSpecularColor: {r: 0.66594577, g: 0.8826454, b: 0.88569486, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -259,10 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff7b6e501d6e6648ac326a4a69057af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 7.13
-  jumpForwardMotion: 10
-  startSpeed: 0.5
-  acceleration: 0.02
+  jumpHeight: 27.9
+  jumpForwardMotion: 7
+  startSpeed: 1.5
+  acceleration: 0
   speedCap: 0.12
   groundedRaycastDistance: 2.01
 --- !u!54 &454745635
@@ -476,7 +476,7 @@ MonoBehaviour:
   - {fileID: 2371984850567279629, guid: fb8ff05f05bf2ae4e971f035ea9d8629, type: 3}
   obstacleMinDistance: 30
   obstacleMaxDistance: 70
-  sightDistance: 222
+  sightDistance: 125
 --- !u!4 &598769575
 Transform:
   m_ObjectHideFlags: 0
@@ -912,7 +912,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 1915914494}
+  m_Camera: {fileID: 508894783}
   m_PlaneDistance: 6
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
