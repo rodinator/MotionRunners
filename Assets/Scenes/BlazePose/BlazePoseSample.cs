@@ -84,7 +84,7 @@ public sealed class BlazePoseSample : MonoBehaviour
     public Vector4[] worldJoints;
 
 	[Header("GUI Settings")]
-	[SerializeField] private bool _drawStickFigure = true;
+	[SerializeField] private bool _drawStickFigure = false;
 	[SerializeField] RawImage cameraView = null;
     [SerializeField] Canvas canvas = null;
       [SerializeField] Text infoText = null;
@@ -115,6 +115,7 @@ public sealed class BlazePoseSample : MonoBehaviour
 
     void Start()
     {
+        DrawStickFigure = false;
 
    infoText.text =  "Starting";
 

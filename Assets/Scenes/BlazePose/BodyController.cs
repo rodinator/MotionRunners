@@ -11,34 +11,31 @@ public class BodyController : Controller
     bool calibrated = false;
     
     Vector3 rightLeg;
-    public Vector3 leftLeg;
-    public Vector3 leftHip;
-    public Vector3 rightHip;
-    public Vector3 nose;
+    Vector3 leftLeg;
+    Vector3 leftHip;
+    Vector3 rightHip;
+    Vector3 nose;
     Vector3 rightHand;
     Vector3 leftHand;
     BlazePoseSample blazePose;
 
 
 
-    public float groundHeight = .93f;
-    public float bodyHeight = 0;
+    float groundHeight = .93f;
+    float bodyHeight = 0;
     public float bodyHeightPercentageForStep = 5;
     bool rightLegMadeLastStep = false;
 
     public float bodyHeightPercentageForJump = 10;
 
-    public float bodyHeightPercentageForCrouch = 27.5f;
-    public float debugCrouchHeight;
+    public float bodyHeightPercentageForCrouch = 17f;
 
     int steps = 0;
 
     bool leftLegIsReadyToStep = false;
     bool rightLegIsReadyToStep = false;
 
-    public float groundedThreeshold = 0.0003f;
-
-    public float debugLeftLegY;
+    float groundedThreeshold = 0.0003f;
 
     // Start is called before the first frame update
     void Start()
@@ -149,8 +146,6 @@ public class BodyController : Controller
 
         bool crouching = false;
         float crouchingHeightFromGround = bodyHeight / 100 * bodyHeightPercentageForCrouch;
-
-        debugCrouchHeight = crouchingHeightFromGround + groundHeight;
 
         if (leftHip.y < groundHeight + crouchingHeightFromGround && rightHip.y < groundHeight + crouchingHeightFromGround)
             crouching = true;
