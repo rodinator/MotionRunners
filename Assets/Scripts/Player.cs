@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     Rigidbody rigidbody;
     float speedPerStep = .3f;
     public float jumpHeight = 10f;
-    public float jumpForwardMotion = 10f;
 
     float crouchHeight = -.4f;
 
@@ -52,7 +51,7 @@ public class Player : MonoBehaviour
         {
             speed = startSpeed;
             Vector3 newPosition = transform.position;
-            newPosition.z -= 5;
+            newPosition.z -= 8;
             transform.position = newPosition;
         }
     }
@@ -75,7 +74,7 @@ public class Player : MonoBehaviour
     void Jump()
     {
         if (controller.Jumping() && Grounded()){
-            rigidbody.AddForce(0, jumpHeight, jumpForwardMotion, ForceMode.Impulse);
+            rigidbody.AddForce(0, jumpHeight, 0, ForceMode.Impulse);
         }
 
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2203630230571072534}
   - component: {fileID: 2203630230571072533}
   - component: {fileID: 2203630230571072532}
+  - component: {fileID: 5775468223246027888}
   m_Layer: 0
   m_Name: GroundTile
   m_TagString: Untagged
@@ -94,3 +95,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!45 &5775468223246027888
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203630230571072531}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}

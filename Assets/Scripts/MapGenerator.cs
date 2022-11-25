@@ -8,7 +8,7 @@ public class MapGenerator : MonoBehaviour
     Camera cam;
     public GameObject groundTile;
     float groundTileLength = 10;
-    public float farestGroundTileZ = 0;
+    float farestGroundTileZ = 0;
     
     public GameObject[] obstacles;
 
@@ -39,7 +39,7 @@ public class MapGenerator : MonoBehaviour
 
         //for(float i = farestGroundTileZ; i < sightDistance + cameraZ; i++)
         while (farestGroundTileZ < sightDistance + camZ){
-        Instantiate(groundTile, new Vector3(0, 0, farestGroundTileZ), Quaternion.identity, this.transform);
+        GameObject newTile = Instantiate(groundTile, new Vector3(0, 0, farestGroundTileZ), Quaternion.identity, this.transform);
         farestGroundTileZ += groundTileLength;
         }
     }
@@ -52,8 +52,7 @@ public class MapGenerator : MonoBehaviour
             float obstacleZPosition = farestObstacleZ + Random.Range(obstacleMinDistance, obstacleMaxDistance);
             obstaclePosition.z = obstacleZPosition;
 
-            Instantiate(obstacleToInstantiate, obstaclePosition, Quaternion.identity, this.transform);
-
+            GameObject newObstacle = Instantiate(obstacleToInstantiate, obstaclePosition, obstacleToInstantiate.transform.rotation, this.transform);
             farestObstacleZ = obstacleZPosition;
         }
     }
