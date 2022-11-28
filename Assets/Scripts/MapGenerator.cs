@@ -6,7 +6,7 @@ public class MapGenerator : MonoBehaviour
 {
     // Start is called before the first frame update
     Camera cam;
-    public GameObject groundTile;
+    public GameObject[] groundTile;
     float groundTileLength = 10;
     float farestGroundTileZ = 0;
     
@@ -40,7 +40,16 @@ public class MapGenerator : MonoBehaviour
 
         //for(float i = farestGroundTileZ; i < sightDistance + cameraZ; i++)
         while (farestGroundTileZ < sightDistance + camZ){
-        GameObject newTile = Instantiate(groundTile, new Vector3(0, 0, farestGroundTileZ), Quaternion.identity, this.transform);
+        GameObject newTile = Instantiate(groundTile[Random.Range(0, groundTile.Length)], new Vector3(0, 0, farestGroundTileZ), Quaternion.identity, this.transform);
+        
+        float mirrorTile = -1;
+        if (Random.value > .5f)
+            mirrorTile = 1;
+        
+        Vector3 newScale = newTile.transform.localScale;
+        newScale.x = newScale.x * mirrorTile;
+        newTile.transform.localScale = newScale;
+
         farestGroundTileZ += groundTileLength;
         }
     }
