@@ -24,21 +24,29 @@ public class Player : MonoBehaviour
 
     float defaultSize;
 
+    public GameObject deadScreen;
+    bool dead = false;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<Controller>();
         rigidbody = GetComponent<Rigidbody>();
+        deadScreen = GameObject.FindWithTag("DeadScreen");
+        deadScreen.SetActive(false);
         defaultSize = transform.localScale.y;
         speed = startSpeed;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run();
-        Jump();
-        Crouch();
+        if (!dead){
+            Run();
+            Jump();
+            Crouch();
+        }
 
     }
 
@@ -50,10 +58,10 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            speed = startSpeed;
-            Vector3 newPosition = transform.position;
-            newPosition.z -= 8;
-            transform.position = newPosition;
+                dead = true;
+                speed = 0;
+                deadScreen.SetActive(true);
+
         }
     }
 

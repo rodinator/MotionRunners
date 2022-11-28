@@ -11,8 +11,8 @@ public class BodyController : Controller
     bool calibrated = false;
     
     Vector3 rightLeg;
-    Vector3 leftLeg;
-    Vector3 leftHip;
+    public Vector3 leftLeg;
+    public Vector3 leftHip;
     Vector3 rightHip;
     Vector3 nose;
     Vector3 rightHand;
@@ -37,10 +37,13 @@ public class BodyController : Controller
 
     float groundedThreeshold = 0.0003f;
 
+    GameObject cameraView;
+
     // Start is called before the first frame update
     void Start()
     {    
         blazePose = FindObjectOfType<BlazePoseSample>();
+        cameraView = blazePose.cameraView.gameObject;
     }
 
     // Update is called once per frame
@@ -176,7 +179,7 @@ public class BodyController : Controller
                 calibrated = true;
                 groundHeight = (leftLeg.y + rightLeg.y) / 2;
                 bodyHeight = groundHeight + nose.y;
-
+                cameraView.SetActive(false);
             }
         }
     }

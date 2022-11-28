@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - DeadScreen
   layers:
   - Default
   - TransparentFX

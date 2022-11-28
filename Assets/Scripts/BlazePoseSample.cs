@@ -85,9 +85,9 @@ public sealed class BlazePoseSample : MonoBehaviour
 
 	[Header("GUI Settings")]
 	[SerializeField] private bool _drawStickFigure = false;
-	[SerializeField] RawImage cameraView = null;
-    [SerializeField] Canvas canvas = null;
-      [SerializeField] Text infoText = null;
+	[SerializeField] public RawImage cameraView = null;
+    [SerializeField] public Canvas canvas = null;
+    [SerializeField] Text infoText = null;
 
 
 	[Header("Other Settings")]
